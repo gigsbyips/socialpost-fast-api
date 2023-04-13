@@ -51,6 +51,5 @@ tomli==2.0.1
 typing_extensions==4.5.0
 ujson==5.7.0
 uvicorn==0.21.1
-uvtools==0.2.0
 watchfiles==0.18.1
 websockets==10.4
