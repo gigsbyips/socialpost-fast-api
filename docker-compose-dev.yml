@@ -1,0 +1,33 @@
+version: "3"
+services:
+  socialpost-api:
+    image: ipsingh0788/socialpost-fastapi   # name of the image to be built.
+    build: .                    # build using the dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+    volumes:
+      - ./:/usr/arc/app:ro  # link container's workdir with local workspace when working in dev env.
+    command: uvicorn apps.main:app --host 0.0.0.0 --port 8000 --reload  # Reload when working in dev env.
+    environment:
+      - DB_HOST=postgres  # DNS of the postgres container.
+      - DB_PORT=5432
+      - DB_NAME=fast-api
+      - DB_USER_NAME=postgres
+      - DB_PWD=Post@Gres
+      - SIGN_KEY=random_secret_key_used_by_fastapi_project
+      - SIGN_ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTE=10
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=fast-api
+      - POSTGRES_USER=postgres # This is optional, by default user named 'postgres' is created.
+      - POSTGRES_PASSWORD=Post@Gres
+    volumes:
+      - postgres-db:/var/lib/postgresql/data    # save DB data locally.
+
+volumes:
+  postgres-db:
+
