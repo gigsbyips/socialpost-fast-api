@@ -10,7 +10,7 @@ services:
       - postgres
     volumes:
       - ./:/usr/src/app:ro  # bind mount when working in dev env.
-    command: alembic upgrade head && uvicorn apps.main:app --host 0.0.0.0 --port 8000 --reload  # Reload when working in dev env.
+    command: bash -c "alembic upgrade head && uvicorn apps.main:app --host 0.0.0.0 --port 8000 --reload"  # Reload when working in dev env.
     environment:
       - DB_HOST=postgres  # DNS of the postgres container.
       - DB_PORT=5432
