@@ -3,11 +3,10 @@ name: Build and deploy socialpost fast api.
 on: [push, pull_request]
 
 jobs:
-  deploy-api:
+  build-api:
     runs-on: ubuntu-latest
     environment:
       name: Test
-    # Secrets should be stored up in a secure location/vault.
     env:
       DB_HOST: ${{secrets.DB_HOST}}
       DB_PORT: ${{secrets.DB_PORT}}
@@ -18,19 +17,19 @@ jobs:
       SIGN_ALGORITHM: ${{secrets.SIGN_ALGORITHM}}
       ACCESS_TOKEN_EXPIRE_MINUTE: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTE}}
     # Run Posgtes DB as another container.
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: ${{secrets.DB_PWD}}
-          POSTGRES_DB: ${{secrets.DB_NAME}}
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    # services:
+    #   postgres:
+    #     image: postgres
+    #     env:
+    #       POSTGRES_PASSWORD: ${{secrets.DB_PWD}}
+    #       POSTGRES_DB: ${{secrets.DB_NAME}}
+    #     ports:
+    #       - 5432:5432
+    #     options: >-
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
     # Deployment steps.
     steps:
       - name: Checkout source code
@@ -66,5 +65,37 @@ jobs:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/socialpost-api:latest
+          cache-from: type=local,src=/tmp/.buildx-cache # Cache set up to avoid repeated image pulls.
+          cache-to: type=local,dest=/tmp/.buildx-cache
       - name: Image Digest
         run: echo ${{ steps.docker_build.outputs.digest }}
+
+  ##################### Deployment #############
+  deploy-api:
+    runs-on: ubuntu-latest
+    needs: [build-api]
+    environment:
+      name: Test
+    env:
+      # APP Secrets.
+      DB_HOST: ${{secrets.DB_HOST}}
+      DB_PORT: ${{secrets.DB_PORT}}
+      DB_NAME: ${{secrets.DB_NAME}}
+      DB_USER_NAME: ${{secrets.DB_USER_NAME}}
+      DB_PWD: ${{secrets.DB_PWD}}
+      SIGN_KEY: ${{secrets.SIGN_KEY}}
+      SIGN_ALGORITHM: ${{secrets.SIGN_ALGORITHM}}
+      ACCESS_TOKEN_EXPIRE_MINUTE: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTE}}
+      # DB Secrets.
+      POSTGRES_PASSWORD: ${{secrets.DB_PWD}}
+      POSTGRES_DB: ${{secrets.DB_NAME}}  
+    steps:  
+      - name: Connect to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Deploy using docker compose
+        uses: isbang/compose-action@v1.4.1
+        with:
+          compose-file: "./docker-compose.yml"

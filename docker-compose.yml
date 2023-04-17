@@ -19,7 +19,6 @@ services:
     image: postgres
     environment:
       - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER_NAME}
       - POSTGRES_PASSWORD=${DB_PWD}
     volumes:
       - postgres-db:/var/lib/postgresql/data    # save DB data.
