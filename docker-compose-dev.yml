@@ -23,8 +23,8 @@ services:
   postgres:
     image: postgres
     environment:
-      - POSTGRES_DB=fast-api
-      - POSTGRES_PASSWORD=random_password
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PWD}
     volumes:
       - postgres-db:/var/lib/postgresql/data # named volume for persisting DB data.
 
