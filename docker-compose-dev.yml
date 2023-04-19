@@ -10,16 +10,16 @@ services:
       - postgres
     volumes:
       - ./:/usr/src/app:ro # bind mount when working in dev env.
-    command: bash -c "alembic upgrade head && uvicorn apps.main:app --host 0.0.0.0 --port 8000 --reload" # Reload when working in dev env.
+    command: bash -c "alembic upgrade head && uvicorn apps.main:app --host 0.0.0.0 --port 8000 --reload" # Reload after changes (dev env).
     environment:
       - DB_HOST=postgres # DNS of the postgres container.
-      - DB_PORT=5432
-      - DB_NAME=fast-api
-      - DB_USER_NAME=postgres
-      - DB_PWD=random_password
-      - SIGN_KEY=random_secret_key_used_by_fastapi_project
-      - SIGN_ALGORITHM=HS256
-      - ACCESS_TOKEN_EXPIRE_MINUTE=10
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER_NAME=${DB_USER_NAME}
+      - DB_PWD=${DB_PWD}
+      - SIGN_KEY=${SIGN_KEY}
+      - SIGN_ALGORITHM=${SIGN_ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE_MINUTE=${ACCESS_TOKEN_EXPIRE_MINUTE}      
   postgres:
     image: postgres
     environment:

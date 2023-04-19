@@ -1,7 +1,7 @@
 version: "3"
 services:
   socialpost-api:
-    image: ipsingh0788/socialpost-fastapi
+    image: ${DOCKER_HUB_USERNAME}/socialpost-fastapi
     ports:
       - 80:8000
     depends_on:
