@@ -1,5 +1,6 @@
 from pydantic import BaseSettings
 
+
 class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: str
@@ -11,7 +12,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTE: int
 
     class Config:
-        env_file=".env"  # source the .env variable file.
-        
+        env_file = ".env"  # source the .env variable file.
+
 
 settings = Settings()

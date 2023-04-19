@@ -4,16 +4,19 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from apps.models import Base     # To access the models for DB Table creation/updation.
-from apps.config import settings # To read env variables for DB connection.
+# To access the models for DB Table creation/updation.
+from apps.models import Base
+from apps.config import settings  # To read env variables for DB connection.
 import urllib
 
 # this is the Alembic Config object, which provides access to values within the "alembic.ini" file in use.
 config = context.config
-DB_PWD = urllib.parse.quote_plus(settings.DB_PWD) # to escape any special char in password.
-#psycopg2 is the driver. Drivers can vary as well.
-SQLALCHEMY_DATABASE_URI=f"postgresql+psycopg2://{settings.DB_USER_NAME}:{DB_PWD}@{settings.DB_HOST}/{settings.DB_NAME}"
-db_url_escaped = SQLALCHEMY_DATABASE_URI.replace('%', '%%') # urllib enconding adds %40 due to @ in the DB_PWD, which must be escaped/replaced.
+# to escape any special char in password.
+DB_PWD = urllib.parse.quote_plus(settings.DB_PWD)
+# psycopg2 is the driver. Drivers can vary as well.
+SQLALCHEMY_DATABASE_URI = f"postgresql+psycopg2://{settings.DB_USER_NAME}:{DB_PWD}@{settings.DB_HOST}/{settings.DB_NAME}"
+# urllib enconding adds %40 due to @ in the DB_PWD, which must be escaped/replaced.
+db_url_escaped = SQLALCHEMY_DATABASE_URI.replace('%', '%%')
 config.set_main_option(name="sqlalchemy.url", value=db_url_escaped)
 
 

@@ -15,14 +15,14 @@ services:
       - SIGN_KEY=${SIGN_KEY}
       - SIGN_ALGORITHM=${SIGN_ALGORITHM}
       - ACCESS_TOKEN_EXPIRE_MINUTE=${ACCESS_TOKEN_EXPIRE_MINUTE}
+    command: bash -c "alembic upgrade head && uvicorn apps.main:app --host 0.0.0.0 --port 8000"
   postgres:
     image: postgres
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_PASSWORD=${DB_PWD}
     volumes:
-      - postgres-db:/var/lib/postgresql/data    # save DB data.
+      - postgres-db:/var/lib/postgresql/data # save DB data.
 
 volumes:
   postgres-db:
-

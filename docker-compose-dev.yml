@@ -2,17 +2,17 @@
 version: "3"
 services:
   api:
-    build: .                    # build image using dockerfile
-    image: socialpost-fastapi   # name of the image to be built.
+    build: . # build image using dockerfile
+    image: socialpost-fastapi # name of the image to be built.
     ports:
       - 8000:8000
     depends_on:
       - postgres
     volumes:
-      - ./:/usr/src/app:ro  # bind mount when working in dev env.
-    command: bash -c "alembic upgrade head && uvicorn apps.main:app --host 0.0.0.0 --port 8000 --reload"  # Reload when working in dev env.
+      - ./:/usr/src/app:ro # bind mount when working in dev env.
+    command: bash -c "alembic upgrade head && uvicorn apps.main:app --host 0.0.0.0 --port 8000 --reload" # Reload when working in dev env.
     environment:
-      - DB_HOST=postgres  # DNS of the postgres container.
+      - DB_HOST=postgres # DNS of the postgres container.
       - DB_PORT=5432
       - DB_NAME=fast-api
       - DB_USER_NAME=postgres
@@ -26,8 +26,9 @@ services:
       - POSTGRES_DB=fast-api
       - POSTGRES_PASSWORD=random_password
     volumes:
-      - postgres-db:/var/lib/postgresql/data    # save DB data.
+      - postgres-db:/var/lib/postgresql/data # named volume for persisting DB data.
 
 volumes:
   postgres-db:
+
 

@@ -26,7 +26,7 @@ def get_posts(db: Session = Depends(get_db), limit: int = 10, skip: int = 0, sea
 @router.get("/{id}", response_model=schemas.PostResponseWithVotes)
 # Path params extracted by fastapi are string, so "int" ensures that request accepts only int value.
 def get_post(id: int, db: Session = Depends(get_db)):
-    post=db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(
+    post = db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(
         models.Vote, models.Post.id == models.Vote.post_id, isouter=True).group_by(
         models.Post.id).filter(models.Post.id == id).first()
     if not post:
@@ -56,7 +56,7 @@ def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), current
 @router.delete("/{id}")
 # Path params extracted by fastapi are of string type, so "int" ensures that request accepts only int value.
 def delete_post(id: int, db: Session = Depends(get_db), current_user: schemas.UserResponse = Depends(oauth.get_current_user)):
-    print(current_user.email)  # current_user details are not used yet.
+    #print(current_user.email)  # current_user details are not used yet.
     post_query = db.query(models.Post).filter(models.Post.id == id)
     query_result = post_query.first()
     if query_result == None:
