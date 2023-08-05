@@ -1,6 +1,6 @@
 # SocialPost FastAPI
 
-SocialPost FastAPI is a fast and efficient API for managing social media posts. It provides endpoints for creating, updating, retrieving, and deleting posts or ideas.
+SocialPost FastAPI is a Python based API for managing social media posts. It provides endpoints for creating, updating, retrieving, and deleting posts or ideas.
 
 ## Table of Contents
 
@@ -13,11 +13,11 @@ SocialPost FastAPI is a fast and efficient API for managing social media posts. 
 
 ## Features
 
-- Create new social media posts with the predefined fields(schema) like title, content, visibility etc.
+- Create new social media posts with the pre-defined fields(schema) like title, content, visibility etc.
 - Update, delete your posts. Only Author of the post can update/delete it.
 - Read any post added by other users and vote for it if you like the post/idea.
 - Authentication and authorization mechanisms (JWT Token Implementation) for secure usage.
-- Sign Up and Sign In support to create your account.
+- Sign Up and Sign In support to create user account.
 
 ## DB Set Up and updates using Alembic
 
@@ -77,7 +77,7 @@ All the dependecies are listed under requirements.txt. Major requirements are-
 
 - If you want to run this app on a remote server or say GitHub Code Build or EC2 instance where docker is availble then refer `docker-compose.yml` file
 
-- If you want to run locally using containers then you can refer ``docker-compose-dev.yml` file. Docker must be available on local for this to run.
+- If you want to run locally using containers then you can refer `docker-compose-dev.yml` file. Docker must be available on local for this to run.
 
 ## API Documentation
 The API documentation is automatically generated using Swagger UI. You can access it by running the application and visiting http://localhost:8000/docs in your web browser.
@@ -86,6 +86,6 @@ The documentation provides details about available endpoints, request and respon
 
 ## Maintainer
 This repo is maintained by `Inderpal Singh` and the project was created to get faimilat with FastAPIs.
-Feel free to fork and make changes in your repo. This is based on a free tutorial series by Sanjeev T.
+Feel free to fork and make changes in your repo. This is based on a free tutorial series by `Sanjeev T`.
 
 

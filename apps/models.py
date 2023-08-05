@@ -20,10 +20,9 @@ class Post(Base):
     # users table's id column. #CASCADE means posts will be deleted on user deletion.
     user_id = Column(Integer, ForeignKey(
         "users.id", ondelete="CASCADE"), nullable=False)
-
+    user = relationship("User")
     # "RELATIONSHIP" is a way to get info from the other table without writing another sql/custom code.
     # It simply instructs SqlAlchemy to fetch details of user based on user_id of the post.
-    user = relationship("User")
 
 
 class User(Base):
@@ -40,9 +39,9 @@ class User(Base):
 class Vote(Base):
     __tablename__ = "votes"
 
-    # users table's id column. #CASCADE means posts will be deleted on user deletion.
+    # users table's id column. #CASCADE means vote will be deleted on user deletion.
     user_id = Column(Integer, ForeignKey(
         "users.id", ondelete="CASCADE"), primary_key=True, nullable=False)
-    # posts table's id column. #CASCADE means posts will be deleted on user deletion.
+    # posts table's id column. #CASCADE means vote will be deleted on post deletion.
     post_id = Column(Integer, ForeignKey(
         "posts.id", ondelete="CASCADE"), primary_key=True, nullable=False)
