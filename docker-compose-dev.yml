@@ -1,4 +1,5 @@
 # This file is used to run the application as container locally during development.
+# We need to ensure that required variables are set up for the container to work.
 version: "3"
 services:
   api:
@@ -9,7 +10,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./:/usr/src/app:ro # bind mount when working in dev env.
+      - ./:/usr/src/app:ro # bind mount when working in dev environment.
     command: bash -c "alembic upgrade head && uvicorn apps.main:app --host 0.0.0.0 --port 8000 --reload" # Reload after changes (dev env).
     environment:
       - DB_HOST=postgres # DNS of the postgres container.

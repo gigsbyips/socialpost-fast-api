@@ -1,3 +1,5 @@
+# This file is used to run the application as container on a server.
+# We need to ensure that required variables are set up for the container to work.
 version: "3"
 services:
   socialpost-api:
